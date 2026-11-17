@@ -22,3 +22,6 @@ npm-debug.log*
 builder-debug.yml
 Thumbs.db
 .DS_Store
+
+# Build iOS générés par la CI
+ios/App/build/

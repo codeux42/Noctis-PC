@@ -58,6 +58,31 @@
       "uninstallerIcon": "assets/icon.ico",
       "installerHeaderIcon": "assets/icon.ico",
       "include": "installer.nsh"
+    },
+    "mac": {
+      "category": "public.app-category.video",
+      "icon": "assets/icon.icns",
+      "identity": null,
+      "hardenedRuntime": false,
+      "target": [
+        {
+          "target": "zip",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "Noctis-${version}-mac-${arch}.${ext}"
+    },
+    "linux": {
+      "category": "Video",
+      "icon": "assets/icon.png",
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "artifactName": "Noctis-${version}-${arch}.${ext}"
     }
   }
 }

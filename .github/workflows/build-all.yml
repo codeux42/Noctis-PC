@@ -1,0 +1,147 @@
+name: Build Noctis (all platforms)
+
+on:
+  push:
+    tags:
+      - "build-*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build NSIS installer
+        run: npm run dist
+
+      - name: Build portable ZIP
+        run: |
+          npm run package
+          Compress-Archive -Path release\Noctis-win32-x64\* -DestinationPath Noctis-Portable-1.3.0.zip -Force
+
+      - name: Publish Windows assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.3.0
+          name: Noctis 1.3.0
+          overwrite_files: true
+          fail_on_unmatched_files: true
+          files: |
+            installer/Noctis-Setup-1.3.0.exe
+            Noctis-Portable-1.3.0.zip
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build Apple Silicon (arm64)
+        run: npx electron-builder --mac --arm64 --publish never
+
+      - name: Build Intel (x64)
+        run: npx electron-builder --mac --x64 --publish never
+
+      - name: Publish macOS assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.3.0
+          name: Noctis 1.3.0
+          overwrite_files: true
+          fail_on_unmatched_files: true
+          files: |
+            dist/Noctis-1.3.0-mac-arm64.zip
+            dist/Noctis-1.3.0-mac-x64.zip
+
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build AppImage and DEB (x64 + arm64)
+        run: npx electron-builder --linux --x64 --arm64 --publish never
+
+      - name: Publish Linux assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.3.0
+          name: Noctis 1.3.0
+          overwrite_files: true
+          fail_on_unmatched_files: true
+          files: |
+            dist/Noctis-1.3.0-x64.AppImage
+            dist/Noctis-1.3.0-arm64.AppImage
+            dist/Noctis-1.3.0-x64.deb
+            dist/Noctis-1.3.0-arm64.deb
+
+  ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve Swift packages
+        working-directory: ios/App
+        run: xcodebuild -resolvePackageDependencies -project App.xcodeproj -scheme App
+
+      - name: Build unsigned iOS app
+        working-directory: ios/App
+        shell: bash
+        run: |
+          mkdir -p build
+          xcodebuild \
+            -project App.xcodeproj \
+            -scheme App \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath build/App.xcarchive \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            archive
+
+      - name: Create IPA and checksums
+        working-directory: ios/App
+        shell: bash
+        run: |
+          mkdir -p build/Payload
+          cp -R build/App.xcarchive/Products/Applications/App.app build/Payload/Noctis.app
+          cd build
+          zip -qry Noctis-1.3.0-ios.ipa Payload
+          shasum -a 256 Noctis-1.3.0-ios.ipa | cut -d ' ' -f 1 > Noctis-1.3.0-ios.ipa.sha256
+          stat -f%z Noctis-1.3.0-ios.ipa > Noctis-1.3.0-ios.ipa.size
+          ls -lh Noctis-1.3.0-ios.ipa
+
+      - name: Publish iOS assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.3.0
+          name: Noctis 1.3.0
+          overwrite_files: true
+          fail_on_unmatched_files: true
+          files: |
+            ios/App/build/Noctis-1.3.0-ios.ipa
+            ios/App/build/Noctis-1.3.0-ios.ipa.sha256
+            ios/App/build/Noctis-1.3.0-ios.ipa.size
