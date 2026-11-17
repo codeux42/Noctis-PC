@@ -23,7 +23,7 @@ jobs:
       - run: npm ci
 
       - name: Build NSIS installer
-        run: npm run dist
+        run: npx electron-builder --win nsis --publish never
 
       - name: Build portable ZIP
         run: |
