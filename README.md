@@ -3,6 +3,13 @@
 Version bureau du site https://noctis.ct.ws : le site s'ouvre dans sa propre
 fenêtre, sans navigateur autour (pas de barre d'adresse, pas d'onglets).
 
+## Télécharger
+
+- **Installeur :** https://github.com/codeux42/Noctis-PC/releases/download/v1.3.0/Noctis-Setup-1.3.0.exe
+- **Version portable :** https://github.com/codeux42/Noctis-PC/releases/download/v1.3.0/Noctis-Portable-1.3.0.zip
+
+Ces liens sont sur GitHub et ne dépendent pas de `noctis.ct.ws`.
+
 ## Installer (recommandé)
 
 1. Double-clique sur **`installer\Noctis-Setup-1.3.0.exe`**.
