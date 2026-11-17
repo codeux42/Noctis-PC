@@ -1,0 +1,19 @@
+{
+	"appId": "ws.ct.noctis.ios",
+	"appName": "Noctis",
+	"webDir": "www",
+	"server": {
+		"url": "https://noctis.ct.ws",
+		"allowNavigation": [
+			"noctis.ct.ws",
+			"*.noctis.ct.ws"
+		]
+	},
+	"android": {
+		"path": "../Noctis Android"
+	},
+	"ios": {
+		"path": "../Noctis IOS"
+	},
+	"packageClassList": []
+}
