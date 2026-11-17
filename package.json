@@ -1,0 +1,63 @@
+{
+  "name": "noctis-pc",
+  "productName": "Noctis",
+  "version": "1.3.0",
+  "description": "Application PC de Noctis — films, séries et TV en direct",
+  "main": "main.js",
+  "author": "Noctis",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "package": "electron-packager . Noctis --platform=win32 --arch=x64 --out=release --overwrite --icon=assets/icon.ico --app-version=1.3.0 --build-version=1.3.0 --ignore=\"^/(installer|release)(/|$)\" --ignore=\"^/Noctis\\.lnk$\"",
+    "dist": "electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "@electron/packager": "^20.3.0",
+    "electron": "^45.3.2",
+    "electron-builder": "^26.18.0"
+  },
+  "build": {
+    "appId": "ws.ct.noctis.pc",
+    "productName": "Noctis",
+    "directories": {
+      "output": "installer"
+    },
+    "files": [
+      "main.js",
+      "presence.js",
+      "presence.json",
+      "popups.json",
+      "splash.html",
+      "offline.html",
+      "assets/**/*"
+    ],
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "artifactName": "Noctis-Setup-${version}.exe",
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Noctis",
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": false,
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico",
+      "installerHeaderIcon": "assets/icon.ico",
+      "include": "installer.nsh"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+# Dépendances
+node_modules/
+
+# Binaires générés (à publier via GitHub Releases, pas dans Git)
+installer/*
+!installer/make-branding.ps1
+release/
+
+# Raccourci propre à cette machine
+Noctis.lnk
+
+# Secrets et fichiers locaux
+.env
+.env.*
+*.key
+*.pfx
+*.p12
+
+# Journaux et fichiers temporaires
+*.log
+npm-debug.log*
+builder-debug.yml
+Thumbs.db
+.DS_Store

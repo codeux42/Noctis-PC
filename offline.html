@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline'; img-src 'self'" />
+    <title>Noctis — connexion impossible</title>
+    <style>
+      * { box-sizing: border-box; }
+      html, body { height: 100%; margin: 0; }
+      body {
+        display: grid;
+        place-items: center;
+        padding: 28px;
+        background: radial-gradient(120% 90% at 50% 0%, #171a24 0%, #0b0c10 55%, #07080b 100%);
+        color: #f4f2ee;
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        text-align: center;
+      }
+      .card {
+        max-width: 420px;
+        display: grid;
+        justify-items: center;
+        gap: 14px;
+      }
+      .logo { width: 76px; height: 76px; border-radius: 18px; }
+      h1 { margin: 4px 0 0; font-size: 22px; }
+      p { margin: 0; color: #9aa0ae; font-size: 14px; line-height: 1.55; }
+      .actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 8px; }
+      a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 132px;
+        padding: 11px 18px;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+      }
+      a.primary { background: #f4f2ee; color: #0b0c10; }
+      a.primary:hover { background: #ffffff; }
+      a.ghost {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #f4f2ee;
+      }
+      a.ghost:hover { background: rgba(255, 255, 255, 0.08); }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <img class="logo" src="assets/icon.png" alt="" />
+      <h1>Connexion impossible</h1>
+      <p>
+        Noctis n'a pas pu joindre le site. Vérifie ta connexion Internet,
+        puis réessaie.
+      </p>
+      <div class="actions">
+        <a class="primary" href="https://noctis.ct.ws/">Réessayer</a>
+        <a class="ghost" href="https://noctis.ct.ws/">Ouvrir le site</a>
+      </div>
+    </div>
+  </body>
+</html>
