@@ -1,18 +1,18 @@
-# Noctis — application PC 1.3.0
+# Noctis — application PC 1.3.1
 
 Version bureau du site https://noctis.ct.ws : le site s'ouvre dans sa propre
 fenêtre, sans navigateur autour (pas de barre d'adresse, pas d'onglets).
 
 ## Télécharger
 
-- **Installeur :** https://github.com/codeux42/Noctis-PC/releases/download/v1.3.0/Noctis-Setup-1.3.0.exe
-- **Version portable :** https://github.com/codeux42/Noctis-PC/releases/download/v1.3.0/Noctis-Portable-1.3.0.zip
+- **Installeur :** https://github.com/codeux42/Noctis-PC/releases/download/v1.3.1/Noctis-Setup-1.3.1.exe
+- **Version portable :** https://github.com/codeux42/Noctis-PC/releases/download/v1.3.1/Noctis-Portable-1.3.1.zip
 
 Ces liens sont sur GitHub et ne dépendent pas de `noctis.ct.ws`.
 
 ## Installer (recommandé)
 
-1. Double-clique sur **`installer\Noctis-Setup-1.3.0.exe`**.
+1. Double-clique sur **`installer\Noctis-Setup-1.3.1.exe`**.
 2. L'installation est habillée aux couleurs Noctis (fond sombre, accents ambre,
    logo) : accueil, mode, dossier, progression et fin.
 3. Choisis le dossier d'installation (ou garde celui proposé), puis **Installer**.
@@ -26,7 +26,7 @@ SmartScreen : clique sur **Informations complémentaires → Exécuter quand mê
 
 ## Désinstaller
 
-**Paramètres → Applications → Noctis 1.3.0 → Désinstaller**, ou
+**Paramètres → Applications → Noctis 1.3.1 → Désinstaller**, ou
 « Uninstall Noctis » dans le menu Démarrer. L'assistant reste dans le style Noctis
 et confirme la suppression avec « Noctis a été désinstallé ».
 
