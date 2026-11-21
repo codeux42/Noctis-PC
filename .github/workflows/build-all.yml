@@ -232,8 +232,10 @@ jobs:
           grep -q "version: $VERSION" release-assets/installer/latest.yml
           grep -q "Noctis-Setup-$VERSION.exe" release-assets/installer/latest.yml
           cat release-assets/installer/latest.yml
-          test -f release-assets/installer/latest-linux.yml
-          grep -q "version: $VERSION" release-assets/installer/latest-linux.yml
+          test -f release-assets/latest-linux.yml
+          grep -q "version: $VERSION" release-assets/latest-linux.yml
+          test -f release-assets/latest-linux-arm64.yml
+          grep -q "version: $VERSION" release-assets/latest-linux-arm64.yml
 
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v2
@@ -252,8 +254,8 @@ jobs:
             release-assets/Noctis-${{ needs.version.outputs.version }}-arm64.AppImage
             release-assets/Noctis-${{ needs.version.outputs.version }}-amd64.deb
             release-assets/Noctis-${{ needs.version.outputs.version }}-arm64.deb
-            release-assets/installer/latest-linux.yml
-            release-assets/installer/latest-linux-arm64.yml
+            release-assets/latest-linux.yml
+            release-assets/latest-linux-arm64.yml
             release-assets/Noctis-${{ needs.version.outputs.version }}-ios.ipa
             release-assets/Noctis-${{ needs.version.outputs.version }}-ios.ipa.sha256
             release-assets/Noctis-${{ needs.version.outputs.version }}-ios.ipa.size
