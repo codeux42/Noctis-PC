@@ -226,10 +226,10 @@ jobs:
           VERSION: ${{ needs.version.outputs.version }}
         run: |
           set -euo pipefail
-          test -f release-assets/latest.yml
-          grep -q "version: $VERSION" release-assets/latest.yml
-          grep -q "Noctis-Setup-$VERSION.exe" release-assets/latest.yml
-          cat release-assets/latest.yml
+          test -f release-assets/installer/latest.yml
+          grep -q "version: $VERSION" release-assets/installer/latest.yml
+          grep -q "Noctis-Setup-$VERSION.exe" release-assets/installer/latest.yml
+          cat release-assets/installer/latest.yml
 
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v2
@@ -239,8 +239,8 @@ jobs:
           overwrite_files: true
           fail_on_unmatched_files: true
           files: |
-            release-assets/Noctis-Setup-${{ needs.version.outputs.version }}.exe
-            release-assets/latest.yml
+            release-assets/installer/Noctis-Setup-${{ needs.version.outputs.version }}.exe
+            release-assets/installer/latest.yml
             release-assets/Noctis-Portable-${{ needs.version.outputs.version }}.zip
             release-assets/Noctis-${{ needs.version.outputs.version }}-mac-arm64.zip
             release-assets/Noctis-${{ needs.version.outputs.version }}-mac-x64.zip
