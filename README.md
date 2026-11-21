@@ -1,18 +1,18 @@
-# Noctis — application PC 1.3.1
+# Noctis — application PC 1.3.2
 
 Version bureau du site https://noctis.ct.ws : le site s'ouvre dans sa propre
 fenêtre, sans navigateur autour (pas de barre d'adresse, pas d'onglets).
 
 ## Télécharger
 
-- **Installeur :** https://github.com/codeux42/Noctis-PC/releases/download/v1.3.1/Noctis-Setup-1.3.1.exe
-- **Version portable :** https://github.com/codeux42/Noctis-PC/releases/download/v1.3.1/Noctis-Portable-1.3.1.zip
+- **Installeur :** https://github.com/codeux42/Noctis-PC/releases/download/v1.3.2/Noctis-Setup-1.3.2.exe
+- **Version portable :** https://github.com/codeux42/Noctis-PC/releases/download/v1.3.2/Noctis-Portable-1.3.2.zip
 
 Ces liens sont sur GitHub et ne dépendent pas de `noctis.ct.ws`.
 
 ## Installer (recommandé)
 
-1. Double-clique sur **`installer\Noctis-Setup-1.3.1.exe`**.
+1. Double-clique sur **`installer\Noctis-Setup-1.3.2.exe`**.
 2. L'installation est habillée aux couleurs Noctis (fond sombre, accents ambre,
    logo) : accueil, mode, dossier, progression et fin.
 3. Choisis le dossier d'installation (ou garde celui proposé), puis **Installer**.
@@ -26,7 +26,7 @@ SmartScreen : clique sur **Informations complémentaires → Exécuter quand mê
 
 ## Désinstaller
 
-**Paramètres → Applications → Noctis 1.3.1 → Désinstaller**, ou
+**Paramètres → Applications → Noctis 1.3.2 → Désinstaller**, ou
 « Uninstall Noctis » dans le menu Démarrer. L'assistant reste dans le style Noctis
 et confirme la suppression avec « Noctis a été désinstallé ».
 
@@ -46,6 +46,11 @@ Pour un raccourci sur le Bureau : clic droit sur `Noctis.exe` →
 
 - Charge le site en direct : les mises à jour du site arrivent seules, rien à
   réinstaller.
+- **Vérifie automatiquement les mises à jour de l'application** au démarrage
+  (3 secondes après l'ouverture). La nouvelle version est téléchargée en
+  arrière-plan, puis un bouton propose de redémarrer. Le menu `Alt` → **Noctis**
+  contient « Rechercher une mise à jour » et l'interrupteur « Mises à jour
+  automatiques ». Un journal est écrit dans `%APPDATA%\Noctis\updates.log`.
 - Garde la session (connexion, Ma liste, réglages) entre deux lancements.
 - Les liens internes restent dans l'application ; les liens externes (Discord…)
   s'ouvrent dans le navigateur par défaut.

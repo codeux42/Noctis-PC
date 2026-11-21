@@ -1,7 +1,7 @@
 {
   "name": "noctis-pc",
   "productName": "Noctis",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "Application PC de Noctis — films, séries et TV en direct",
   "main": "main.js",
   "author": "Noctis",
@@ -9,7 +9,7 @@
   "private": true,
   "scripts": {
     "start": "electron .",
-    "package": "electron-packager . Noctis --platform=win32 --arch=x64 --out=release --overwrite --icon=assets/icon.ico --app-version=1.3.1 --build-version=1.3.1 --ignore=\"^/(installer|release)(/|$)\" --ignore=\"^/Noctis\\.lnk$\"",
+    "package": "electron-packager . Noctis --platform=win32 --arch=x64 --out=release --overwrite --icon=assets/icon.ico --app-version=%npm_package_version% --build-version=%npm_package_version% --ignore=\"^/(installer|release)(/|$)\" --ignore=\"^/Noctis\\.lnk$\"",
     "dist": "electron-builder --win nsis"
   },
   "devDependencies": {
@@ -20,6 +20,11 @@
   "build": {
     "appId": "ws.ct.noctis.pc",
     "productName": "Noctis",
+    "publish": {
+      "provider": "github",
+      "owner": "codeux42",
+      "repo": "Noctis-PC"
+    },
     "directories": {
       "output": "installer"
     },
@@ -85,5 +90,8 @@
       ],
       "artifactName": "Noctis-${version}-${arch}.${ext}"
     }
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.11"
   }
 }

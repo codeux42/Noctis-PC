@@ -12,7 +12,8 @@
  * avantage d'une application installée, un site web n'y a pas accès.
  */
 
-const { app, BrowserWindow, Menu, shell, session, screen } = require("electron");
+const { app, BrowserWindow, Menu, shell, session, screen, dialog } = require("electron");
+const { autoUpdater } = require("electron-updater");
 const fs = require("node:fs");
 const path = require("node:path");
 const { DiscordPresence } = require("./presence");
@@ -121,7 +122,8 @@ if (!app.requestSingleInstanceLock()) {
 const STATE_FILE = path.join(app.getPath("userData"), "window-state.json");
 const SETTINGS_FILE = path.join(app.getPath("userData"), "settings.json");
 const PRESENCE_LOG = path.join(app.getPath("userData"), "presence.log");
-const DEFAULT_SETTINGS = { discord: true, alwaysOnTop: false };
+const UPDATE_LOG = path.join(app.getPath("userData"), "updates.log");
+const DEFAULT_SETTINGS = { discord: true, alwaysOnTop: false, autoUpdate: true };
 
 let mainWindow = null;
 let presence = null;
@@ -136,6 +138,7 @@ function loadSettings() {
     return {
       discord: saved?.discord !== false,
       alwaysOnTop: saved?.alwaysOnTop === true,
+      autoUpdate: saved?.autoUpdate !== false,
     };
   } catch {
     return { ...DEFAULT_SETTINGS };
@@ -159,6 +162,137 @@ function presenceLog(message) {
     fs.appendFileSync(PRESENCE_LOG, `[${new Date().toISOString()}] ${message}\n`, "utf8");
   } catch {
     /* le journal est facultatif */
+  }
+}
+
+function updateLog(message) {
+  try {
+    if (fs.existsSync(UPDATE_LOG) && fs.statSync(UPDATE_LOG).size > 64 * 1024) {
+      fs.writeFileSync(UPDATE_LOG, "", "utf8");
+    }
+    fs.appendFileSync(UPDATE_LOG, `[${new Date().toISOString()}] ${message}\n`, "utf8");
+  } catch {
+    /* le journal est facultatif */
+  }
+}
+
+let updateCheckRunning = false;
+let updaterWired = false;
+let manualCheck = false;
+
+/**
+ * Vérifie GitHub, télécharge la mise à jour et propose le redémarrage.
+ * Au démarrage le téléchargement est automatique ; à la demande, on demande
+ * d'abord l'accord de l'utilisateur.
+ */
+async function checkForUpdates({ manual = false } = {}) {
+  if (!app.isPackaged) {
+    if (manual) {
+      dialog.showMessageBoxSync({
+        type: "info",
+        title: "Mises à jour",
+        message: "La vérification automatique n'est active que dans l'application installée.",
+        buttons: ["OK"],
+      });
+    }
+    return;
+  }
+  if (updateCheckRunning) return;
+  updateCheckRunning = true;
+  manualCheck = manual;
+  updateLog(manual ? "Vérification manuelle" : "Vérification au démarrage");
+
+  if (!updaterWired) {
+    updaterWired = true;
+    autoUpdater.autoDownload = false;
+    autoUpdater.autoInstallOnAppQuit = true;
+
+    autoUpdater.on("checking-for-update", () => updateLog("Recherche d'une version…"));
+
+    autoUpdater.on("update-available", async (info) => {
+      updateLog(`Version disponible : ${info?.version || "?"}`);
+      let download = !manualCheck;
+      if (manualCheck) {
+        const answer = dialog.showMessageBoxSync({
+          type: "question",
+          title: "Mise à jour disponible",
+          message: `La version ${info?.version || ""} est disponible. La télécharger maintenant ?`,
+          buttons: ["Télécharger", "Plus tard"],
+          defaultId: 0,
+          cancelId: 1,
+        });
+        download = answer === 0;
+      }
+      if (download) {
+        updateLog("Téléchargement lancé");
+        try {
+          await autoUpdater.downloadUpdate();
+        } catch (error) {
+          updateLog(`Erreur de téléchargement : ${error?.message || error}`);
+        }
+      }
+    });
+
+    autoUpdater.on("download-progress", (progress) => {
+      const percent = Math.round(progress?.percent || 0);
+      if (percent % 10 === 0) updateLog(`Téléchargement : ${percent} %`);
+    });
+
+    autoUpdater.on("update-downloaded", (info) => {
+      updateLog(`Version ${info?.version || "?"} téléchargée`);
+      const answer = dialog.showMessageBoxSync({
+        type: "info",
+        title: "Mise à jour prête",
+        message: `La version ${info?.version || ""} est prête. Redémarrer Noctis maintenant ?`,
+        buttons: ["Redémarrer", "Plus tard"],
+        defaultId: 0,
+        cancelId: 1,
+      });
+      if (answer === 0) {
+        updateLog("Redémarrage pour installation");
+        autoUpdater.quitAndInstall(false, true);
+      }
+    });
+
+    autoUpdater.on("update-not-available", (info) => {
+      updateLog(`Aucune mise à jour (version ${info?.version || app.getVersion()})`);
+      if (manualCheck) {
+        dialog.showMessageBoxSync({
+          type: "info",
+          title: "Mises à jour",
+          message: `Vous utilisez la dernière version disponible (${app.getVersion()}).`,
+          buttons: ["OK"],
+        });
+      }
+    });
+
+    autoUpdater.on("error", (error) => {
+      updateLog(`Erreur : ${error?.message || error}`);
+      if (manualCheck) {
+        dialog.showMessageBoxSync({
+          type: "warning",
+          title: "Mises à jour",
+          message: "Impossible de vérifier les mises à jour pour le moment.",
+          buttons: ["OK"],
+        });
+      }
+    });
+  }
+
+  try {
+    await autoUpdater.checkForUpdates();
+  } catch (error) {
+    updateLog(`Échec de la vérification : ${error?.message || error}`);
+    if (manual) {
+      dialog.showMessageBoxSync({
+        type: "warning",
+        title: "Mises à jour",
+        message: "Impossible de vérifier les mises à jour pour le moment.",
+        buttons: ["OK"],
+      });
+    }
+  } finally {
+    updateCheckRunning = false;
   }
 }
 
@@ -627,6 +761,17 @@ function buildMenu(win) {
             win.setAlwaysOnTop(item.checked);
           },
         },
+        {
+          label: "Mises à jour automatiques",
+          type: "checkbox",
+          checked: settings.autoUpdate,
+          click: (item) => {
+            settings.autoUpdate = item.checked;
+            saveSettings();
+            updateLog(`mises à jour automatiques ${item.checked ? "activées" : "désactivées"}`);
+          },
+        },
+        { label: "Rechercher une mise à jour", click: () => checkForUpdates({ manual: true }) },
         { type: "separator" },
         { label: "Recharger", accelerator: "F5", click: () => win.webContents.reload() },
         {
@@ -807,6 +952,10 @@ app.whenReady().then(() => {
   else presenceLog("statut Discord désactivé dans les préférences");
 
   createWindow();
+
+  if (settings.autoUpdate && !process.argv.includes("--updated")) {
+    setTimeout(() => checkForUpdates(), 3000);
+  }
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
