@@ -115,7 +115,8 @@ app.userAgentFallback = app.userAgentFallback
   .replace(/\sNoctis\/[\d.]+/i, "");
 
 // Une seule instance : un second lancement ramène la fenêtre existante.
-if (!app.requestSingleInstanceLock()) {
+const hasSingleInstanceLock = app.requestSingleInstanceLock();
+if (!hasSingleInstanceLock) {
   app.quit();
 }
 
@@ -953,7 +954,7 @@ app.whenReady().then(() => {
 
   createWindow();
 
-  if (settings.autoUpdate && !process.argv.includes("--updated")) {
+  if (hasSingleInstanceLock && settings.autoUpdate && !process.argv.includes("--updated")) {
     setTimeout(() => checkForUpdates(), 3000);
   }
 
