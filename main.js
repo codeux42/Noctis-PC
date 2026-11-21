@@ -124,6 +124,12 @@ const STATE_FILE = path.join(app.getPath("userData"), "window-state.json");
 const SETTINGS_FILE = path.join(app.getPath("userData"), "settings.json");
 const PRESENCE_LOG = path.join(app.getPath("userData"), "presence.log");
 const UPDATE_LOG = path.join(app.getPath("userData"), "updates.log");
+const RELEASES_URL = "https://github.com/codeux42/Noctis-PC/releases/latest";
+// L'auto-update est pris en charge sur Windows (NSIS) et Linux AppImage.
+// Les paquets .deb et les ZIP macOS sont non signés : on ouvre la page de
+// téléchargement plutôt que de tenter une installation qui échouerait.
+const CAN_AUTO_UPDATE =
+  process.platform === "win32" || (process.platform === "linux" && Boolean(process.env.APPIMAGE));
 const DEFAULT_SETTINGS = { discord: true, alwaysOnTop: false, autoUpdate: true };
 
 let mainWindow = null;
@@ -198,6 +204,22 @@ async function checkForUpdates({ manual = false } = {}) {
     }
     return;
   }
+  if (!CAN_AUTO_UPDATE) {
+    updateLog("Plateforme sans auto-update (deb/macOS)");
+    if (manual) {
+      const answer = dialog.showMessageBoxSync({
+        type: "info",
+        title: "Mises à jour",
+        message: "Cette installation (paquet .deb ou ZIP macOS) ne peut pas se mettre à jour automatiquement. Ouvrir la page des téléchargements ?",
+        buttons: ["Ouvrir la page", "Plus tard"],
+        defaultId: 0,
+        cancelId: 1,
+      });
+      if (answer === 0) shell.openExternal(RELEASES_URL);
+    }
+    return;
+  }
+
   if (updateCheckRunning) return;
   updateCheckRunning = true;
   manualCheck = manual;
@@ -954,7 +976,7 @@ app.whenReady().then(() => {
 
   createWindow();
 
-  if (hasSingleInstanceLock && settings.autoUpdate && !process.argv.includes("--updated")) {
+  if (hasSingleInstanceLock && CAN_AUTO_UPDATE && settings.autoUpdate && !process.argv.includes("--updated")) {
     setTimeout(() => checkForUpdates(), 3000);
   }
 

@@ -51,6 +51,10 @@ Pour un raccourci sur le Bureau : clic droit sur `Noctis.exe` →
   arrière-plan, puis un bouton propose de redémarrer. Le menu `Alt` → **Noctis**
   contient « Rechercher une mise à jour » et l'interrupteur « Mises à jour
   automatiques ». Un journal est écrit dans `%APPDATA%\Noctis\updates.log`.
+  L'auto-update est actif sur **Windows (NSIS)** et **Linux AppImage**
+  (`latest-linux.yml` / `latest-linux-arm64.yml` publiés dans la release). Les
+  paquets `.deb` et les ZIP macOS ne sont pas signés : la vérification manuelle
+  ouvre la page de la dernière release.
 - Garde la session (connexion, Ma liste, réglages) entre deux lancements.
 - Les liens internes restent dans l'application ; les liens externes (Discord…)
   s'ouvrent dans le navigateur par défaut.
