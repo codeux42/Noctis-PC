@@ -1,6 +1,6 @@
 # Noctis — application PC 1.3.2
 
-Version bureau du site https://noctis.ct.ws : le site s'ouvre dans sa propre
+Version bureau du site https://noctisfr.site/ : le site s'ouvre dans sa propre
 fenêtre, sans navigateur autour (pas de barre d'adresse, pas d'onglets).
 
 ## Télécharger
@@ -8,7 +8,7 @@ fenêtre, sans navigateur autour (pas de barre d'adresse, pas d'onglets).
 - **Installeur :** https://github.com/codeux42/Noctis-PC/releases/download/v1.3.2/Noctis-Setup-1.3.2.exe
 - **Version portable :** https://github.com/codeux42/Noctis-PC/releases/download/v1.3.2/Noctis-Portable-1.3.2.zip
 
-Ces liens sont sur GitHub et ne dépendent pas de `noctis.ct.ws`.
+Ces liens sont sur GitHub et ne dépendent pas de `noctisfr.site`.
 
 ## Installer (recommandé)
 

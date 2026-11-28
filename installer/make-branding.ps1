@@ -1,4 +1,4 @@
-ï»¿# GÃ©nÃ¨re les images de l'installeur Noctis (BMP 24 bits, exigÃ©s par NSIS).
+# Génère les images de l'installeur Noctis (BMP 24 bits, exigés par NSIS).
 Add-Type -AssemblyName System.Drawing
 
 $root = 'C:\Users\Utilisateur\Desktop\Noctis PC'
@@ -27,7 +27,7 @@ function New-Canvas([int]$w, [int]$h) {
   return @($bmp, $g)
 }
 
-# Halo ambrÃ© : dessinÃ© sur une couche transparente puis composÃ© (bords propres).
+# Halo ambré : dessiné sur une couche transparente puis composé (bords propres).
 function Add-Glow($g, [int]$w, [int]$h, [int]$cx, [int]$cy, [int]$rx, [int]$ry, [int]$alpha) {
   $layer = New-Object System.Drawing.Bitmap $w, $h, ([System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
   $lg = [System.Drawing.Graphics]::FromImage($layer)
@@ -88,7 +88,7 @@ function New-Sidebar([string]$name, [string]$tagline) {
   $g.FillRectangle($line, 78, 158, 8, 2)
   $line.Dispose()
 
-  # Ligne d'accroche ajustÃ©e pour tenir dans la largeur du panneau.
+  # Ligne d'accroche ajustée pour tenir dans la largeur du panneau.
   $size = 6.8; $spacing = 1.0
   do {
     $tagFont = New-Object System.Drawing.Font 'Segoe UI', $size, ([System.Drawing.FontStyle]::Regular), ([System.Drawing.GraphicsUnit]::Pixel)
@@ -111,7 +111,7 @@ function New-Sidebar([string]$name, [string]$tagline) {
 
   $site = New-Object System.Drawing.Font 'Segoe UI', 7.0, ([System.Drawing.FontStyle]::Regular), ([System.Drawing.GraphicsUnit]::Pixel)
   $siteBrush = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::FromArgb(130, 150, 156, 169))
-  $siteText = 'noctis.ct.ws'
+  $siteText = 'noctisfr.site'
   $sw = $g.MeasureString($siteText, $site).Width
   $g.DrawString($siteText, $site, $siteBrush, (164 - $sw) / 2, 293)
   $siteBrush.Dispose(); $site.Dispose()
@@ -143,11 +143,11 @@ function New-Header([string]$name, [string]$subtitle) {
   return Save-Bmp $bmp $g (Join-Path $outDir $name)
 }
 
-"Images gÃ©nÃ©rÃ©es :"
-New-Sidebar 'sidebar.bmp' 'FILMS Â· SÃ‰RIES Â· TV EN DIRECT'
-New-Sidebar 'sidebar-uninstall.bmp' 'DÃ‰SINSTALLATION'
-New-Header 'header.bmp' "Installateur Â· v$version"
-New-Header 'header-uninstall.bmp' 'DÃ©sinstalleur'
+"Images générées :"
+New-Sidebar 'sidebar.bmp' 'FILMS · SÉRIES · TV EN DIRECT'
+New-Sidebar 'sidebar-uninstall.bmp' 'DÉSINSTALLATION'
+New-Header 'header.bmp' "Installateur · v$version"
+New-Header 'header-uninstall.bmp' 'Désinstalleur'
 
 $logo.Dispose()
 "version: $version"

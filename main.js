@@ -18,8 +18,8 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { DiscordPresence } = require("./presence");
 
-const SITE_URL = process.env.NOCTIS_PC_URL || "https://noctis.ct.ws/";
-const SITE_HOSTS = new Set(["noctis.ct.ws", "www.noctis.ct.ws"]);
+const SITE_URL = process.env.NOCTIS_PC_URL || "https://noctisfr.site/";
+const SITE_HOSTS = new Set(["noctisfr.site", "www.noctisfr.site"]);
 const APP_ID = "ws.ct.noctis.pc";
 const BG = "#0b0c10";
 const PRESENCE_START = Math.floor(Date.now() / 1000);

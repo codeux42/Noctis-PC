@@ -3,10 +3,10 @@
 	"appName": "Noctis",
 	"webDir": "www",
 	"server": {
-		"url": "https://noctis.ct.ws",
+		"url": "https://noctisfr.site/",
 		"allowNavigation": [
-			"noctis.ct.ws",
-			"*.noctis.ct.ws"
+			"noctisfr.site",
+			"*.noctisfr.site"
 		]
 	},
 	"android": {

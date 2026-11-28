@@ -38,7 +38,7 @@
 
 !define MUI_FINISHPAGE_TITLE "Noctis est installé"
 !define MUI_FINISHPAGE_TITLE_3LINES
-!define MUI_FINISHPAGE_TEXT "Tout est prêt.$\r$\n$\r$\nRetrouvez Noctis dans le menu Démarrer et sur le Bureau. Le statut Discord « Regarde Noctis » s'active au lancement.$\r$\n$\r$\nnoctis.ct.ws"
+!define MUI_FINISHPAGE_TEXT "Tout est prêt.$\r$\n$\r$\nRetrouvez Noctis dans le menu Démarrer et sur le Bureau. Le statut Discord « Regarde Noctis » s'active au lancement.$\r$\n$\r$\nnoctisfr.site"
 !define MUI_FINISHPAGE_RUN_TEXT "Lancer Noctis"
 
 ; La page d'accueil n'apparaît pas lors d'une mise à jour.
@@ -90,7 +90,7 @@
   !undef MUI_FINISHPAGE_TITLE
   !define MUI_FINISHPAGE_TITLE "Noctis a été désinstallé"
   !undef MUI_FINISHPAGE_TEXT
-  !define MUI_FINISHPAGE_TEXT "L'application et ses raccourcis ont été retirés de cet ordinateur.$\r$\n$\r$\nVos préférences sont conservées dans votre profil Windows.$\r$\n$\r$\nMerci d'avoir utilisé Noctis.$\r$\n$\r$\nnoctis.ct.ws"
+  !define MUI_FINISHPAGE_TEXT "L'application et ses raccourcis ont été retirés de cet ordinateur.$\r$\n$\r$\nVos préférences sont conservées dans votre profil Windows.$\r$\n$\r$\nMerci d'avoir utilisé Noctis.$\r$\n$\r$\nnoctisfr.site"
 !macroend
 
 ; La page « désinstallation en cours » est dessinée par le noyau NSIS et ne
